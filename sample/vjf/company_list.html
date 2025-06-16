@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Virtual Job Fair Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">JobFair 2025</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="Registration.html">Register</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#highlights">Highlights</a></li>
+        <li class="nav-item"><a class="nav-link active" href="company_list.html">Companies</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="container py-5 flex-grow-1">
+
+  <!-- Filters Section -->
+  <div class="mb-4">
+    <div class="d-flex flex-wrap gap-3 align-items-end">
+
+      <!-- Search -->
+      <div class="flex-grow-1 min-w-200">
+        <input type="text" id="searchInput" class="form-control" placeholder="&#128269; Search company name..." />
+      </div>
+
+      <!-- Sector Filter -->
+<div class="row g-2">
+  <div class="col-6">
+    <select id="sectorFilter" class="form-select">
+      <option value="">All Sectors</option>
+      <option value="IT">IT</option>
+      <option value="Finance">Finance</option>
+    </select>
+  </div>
+  <div class="col-6">
+    <select id="locationFilter" class="form-select">
+      <option value="">All Locations</option>
+      <option value="Bangalore">Bangalore</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Hyderabad">Hyderabad</option>
+      <option value="Mumbai">Mumbai</option>
+    </select>
+  </div>
+</div>
+
+
+
+      <!-- Type Filter -->
+      <div style="min-width: 240px;">
+        <div class="d-flex flex-wrap gap-2">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="typeFilter" value="Internship" id="typeIntern" />
+            <label class="form-check-label" for="typeIntern">Intern</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="typeFilter" value="Full-Time" id="typeFull" />
+            <label class="form-check-label" for="typeFull">Full-Time</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="typeFilter" value="Part-Time" id="typePart" />
+            <label class="form-check-label" for="typePart">Part-Time</label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Company Cards -->
+  <div class="row" id="companyList"></div>
+</main>
+
+<!-- Modal -->
+<div class="modal fade" id="companyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="modalTitle">Company Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+  <div class="container">
+    <p class="mb-1 small">© 2025 Virtual Job Fair. All rights reserved.</p>
+    <p class="mb-0 small">Contact us: info@virtualjobfair.com | +91-12345-67890</p>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const companies = [
+    {
+      name: "Infosys",
+      sector: "IT",
+      location: "Bangalore",
+      type: "Internship",
+      role: "Frontend Developer Intern",
+      description: "Work on ReactJS-based UI development with real-world projects.",
+      requirements: ["Knowledge of HTML, CSS, JavaScript", "Basics of React or Angular", "Good problem-solving skills"],
+      perks: ["Certificate", "Flexible hours", "Pre-placement offer"],
+      tags: ["#HiringNow", "#Remote"],
+      time: "2 days ago"
+    },
+    {
+      name: "TCS",
+      sector: "IT",
+      location: "Delhi",
+      type: "Full-Time",
+      role: "Java Backend Developer",
+      description: "Develop robust backend services using Java, Spring Boot.",
+      requirements: ["2+ years experience in Java", "Spring Boot and REST API knowledge", "Good communication skills"],
+      perks: ["Medical insurance", "Annual bonus"],
+      tags: ["#Onsite"],
+      time: "1 week ago"
+    },
+    {
+      name: "HDFC Bank",
+      sector: "Finance",
+      location: "Mumbai",
+      type: "Full-Time",
+      role: "Relationship Manager",
+      description: "Manage customer accounts and sell banking products.",
+      requirements: ["Bachelor's degree in Finance", "Good communication & interpersonal skills"],
+      perks: ["Sales incentives", "On-the-job training"],
+      tags: ["#HiringNow"],
+      time: "5 days ago"
+    },
+    {
+      name: "Wipro",
+      sector: "IT",
+      location: "Hyderabad",
+      type: "Part-Time",
+      role: "Tech Support Executive",
+      description: "Provide tech support for domestic and international clients.",
+      requirements: ["Basic IT knowledge", "Strong verbal communication", "Willingness to work shifts"],
+      perks: ["Night shift allowance", "Remote options"],
+      tags: ["#Remote"],
+      time: "3 days ago"
+    }
+  ];
+
+  function renderCards() {
+    const list = document.getElementById("companyList");
+    list.innerHTML = "";
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const sector = document.getElementById("sectorFilter").value;
+    const location = document.getElementById("locationFilter").value;
+    const typeCheckboxes = document.querySelectorAll("input[name='typeFilter']:checked");
+    const types = Array.from(typeCheckboxes).map(cb => cb.value);
+
+const filtered = companies.filter(c => {
+  return (!search || c.name.toLowerCase().includes(search)) &&
+         (!sector || c.sector === sector) &&
+         (!location || c.location === location) &&
+         (types.length === 0 || types.includes(c.type));
+});
+
+if (filtered.length === 0) {
+  list.innerHTML = `
+    <div class="col-12 text-center py-5">
+      <h5 class="text-muted"> No companies match your search/filter criteria.</h5>
+      <p class="text-secondary">Try adjusting your filters or search terms.</p>
+    </div>
+  `;
+  return;
+}
+
+filtered.forEach((c, index) => {
+  const card = document.createElement("div");
+  card.className = "col-md-4 mb-4";
+  card.innerHTML = `
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title fw-bold">${c.name}</h5>
+        <p class="card-text mb-1">Sector: ${c.sector}</p>
+        <p class="card-text mb-1">Location: ${c.location}</p>
+        <p class="card-text mb-1">Hiring Type: ${c.type}</p>
+        <p class="card-text mb-1"><strong>Role:</strong> ${c.role}</p>
+        <p class="card-text">${c.description}</p>
+        ${c.tags.map(tag => `<span class="badge bg-secondary me-1 small">${tag}</span>`).join("")}
+        <br>
+        <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#companyModal" onclick='showDetails(${index})'>View Details</button>
+      </div>
+      <div class="card-footer text-muted text-end small">${c.time}</div>
+    </div>
+  `;
+  list.appendChild(card);
+});
+
+  }
+
+  function showDetails(index) {
+    const c = companies[index];
+    document.getElementById("modalTitle").innerHTML = `
+      <span class="text-primary text-white">${c.name}</span> - <small>${c.role}</small>
+    `;
+
+    document.getElementById("modalBody").innerHTML = `
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <p><strong>Sector:</strong> ${c.sector}</p>
+          <p><strong>Location:</strong> ${c.location}</p>
+          <p><strong>Type:</strong> <span class="badge bg-info text-dark">${c.type}</span></p>
+          <p><strong>Posted:</strong> <i>${c.time}</i></p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Tags:</strong><br>
+            ${c.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join(" ")}
+          </p>
+        </div>
+      </div>
+
+      <hr class="my-3"/>
+
+      <div class="mb-3">
+        <h6 class="text-primary"><i class="bi bi-person-badge"></i> Job Description</h6>
+        <p>${c.description}</p>
+      </div>
+
+      <div class="mb-3">
+        <h6 class="text-primary"><i class="bi bi-card-checklist"></i> Requirements</h6>
+        <ul class="list-group list-group-flush">
+          ${c.requirements.map(req => `<li class="list-group-item">${req}</li>`).join("")}
+        </ul>
+      </div>
+
+      <div class="mb-3">
+        <h6 class="text-primary"><i class="bi bi-heart-pulse"></i> Perks & Benefits</h6>
+        <div class="d-flex flex-wrap gap-2">
+          ${c.perks.map(perk => `<span class="badge rounded-pill bg-success">${perk}</span>`).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById("searchInput").addEventListener("input", renderCards);
+  document.getElementById("sectorFilter").addEventListener("change", renderCards);
+  document.getElementById("locationFilter").addEventListener("change", renderCards);
+  document.querySelectorAll("input[name='typeFilter']").forEach(cb =>
+    cb.addEventListener("change", renderCards)
+  );
+
+  window.onload = renderCards;
+</script>
+
+</body>
+</html>
