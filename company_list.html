@@ -1,322 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Virtual Job Fair Portal</title>
+  <title>User Dashbaord | Companies Listed |Virtual Job Fair</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    .navbar {
+      background-color: #212529;
+    }
+
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+      color: #ffffff !important;
+    }
+
+    .navbar .nav-link.active {
+      font-weight: bold;
+      color: #ffca28 !important;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #00897b, #1976d2);
+      color: #ffffff;
+    }
+
+    .hero .btn {
+      background-color: #ffffff;
+      color: #1976d2;
+      border: none;
+    }
+
+    .hero .btn:hover {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+
+    .event-highlights {
+      background-color: #f3e5f5;
+    }
+
+    .event-highlights .card {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 0.5rem;
+      transition: transform 0.2s ease;
+    }
+
+    .event-highlights .card:hover {
+      transform: scale(1.03);
+    }
+
+    footer {
+      color: #f5f5f5;
+    }
+
+    .dropdown-item.logout-item {
+      color: #dc3545;
+    }
+
+
+    .dropdown-item.logout-item:hover {
+      background-color: #f8d7da;
+      color: #b02a37;
+    }
+
+    .dropdown-item.logout-item:active {
+      background-color: transparent !important;
+      color: #b02a37 !important;
+    }
+
+.custom-card {
+  border-radius: 0.1rem; /* almost square corners */
+  border: 1px solid #e7dede !important; 
+  transition: all 0.25s ease-in-out;
+  box-shadow: none; 
+}
+.custom-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* crisp hover shadow */
+  transform: translateY(-5px);
+  border-color: #0d6efd; /* optional: border changes on hover */
+  
+}
+  </style>
 </head>
-<body class="bg-light d-flex flex-column min-vh-100">
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-  <div class="container">
-    <a class="navbar-brand" href="#">JobFair 2025</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="Registration.html">Register</a></li>
-        <li class="nav-item"><a class="nav-link" href="index.html#highlights">Highlights</a></li>
-        <li class="nav-item"><a class="nav-link active" href="company_list.html">Companies</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<body class="d-flex flex-column min-vh-100" style="background-color: #f8f9fa;">
 
-<!-- Main Content -->
-<main class="container py-5 flex-grow-1">
-
-  <!-- Filters Section -->
-  <div class="mb-4">
-    <div class="d-flex flex-wrap gap-3 align-items-end">
-
-      <!-- Search -->
-      <div class="flex-grow-1 min-w-200">
-        <input type="text" id="searchInput" class="form-control" placeholder="&#128269; Search company name..." />
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="userdashboard.html">JobFair 2025</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item">
+            <a class="nav-link" href = "#" id="dashboardLink">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="company_list.html" id="company_link">Companies</a>
+          </li>
+          <!-- ---profile--- -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle me-1"></i><span id="navUserName">User</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <h6 class="dropdown-header" id="navUserEmail">user@example.com</h6>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item logout-item" href="#" onclick="logout()">Logout</a></li>
+            </ul>
+          </li>
+          <!-- --- -->
+        </ul>
       </div>
-
-      <!-- Sector Filter -->
-<div class="row g-2">
-  <div class="col-6">
-    <select id="sectorFilter" class="form-select">
-      <option value="">All Sectors</option>
-      
-    </select>
-  </div>
-  <div class="col-6">
-    <select id="locationFilter" class="form-select">
-      <option value="">All Locations</option>
-      
-    </select>
-  </div>
-</div>
+    </div>
+  </nav>
 
 
+  <!-- Main Content -->
+  <main class="container py-5 flex-grow-1" >
 
-      <!-- Type Filter -->
-      <div style="min-width: 240px;">
-        <div class="d-flex flex-wrap gap-2">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="typeFilter" value="Internship" id="typeIntern" />
-            <label class="form-check-label" for="typeIntern">Intern</label>
+    <!-- Filters Section -->
+    <div class="mb-4">
+      <div class="d-flex flex-wrap gap-3 align-items-end">
+
+        <!-- Search -->
+        <div class="flex-grow-1 min-w-200">
+          <input type="text" id="searchInput" class="form-control border-black" placeholder="&#128269; Search company name..." />
+        </div>
+
+        <!-- Sector Filter -->
+        <div class="row g-2">
+          <div class="col-6">
+            <select id="sectorFilter" class="form-select  border-black">
+              <option value="">All Sectors</option>
+
+            </select>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="typeFilter" value="Full-Time" id="typeFull" />
-            <label class="form-check-label" for="typeFull">Full-Time</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="typeFilter" value="Part-Time" id="typePart" />
-            <label class="form-check-label" for="typePart">Part-Time</label>
+          <div class="col-6">
+            <select id="locationFilter"  class="form-select border-black">
+              <option value="">All Locations</option>
+
+            </select>
           </div>
         </div>
-      </div>
 
+
+
+        <!-- Type Filter -->
+        <div style="min-width: 240px;">
+          <div class="d-flex flex-wrap gap-2">
+            <div class="form-check">
+              <input class="form-check-input  border-black" type="checkbox" name="typeFilter" value="Internship" id="typeIntern" />
+              <label class="form-check-label" for="typeIntern">Intern</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input border-black" type="checkbox" name="typeFilter" value="Full-Time" id="typeFull" />
+              <label class="form-check-label" for="typeFull">Full-Time</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input border-black" type="checkbox" name="typeFilter" value="Part-Time" id="typePart" />
+              <label class="form-check-label" for="typePart">Part-Time</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-check form-switch  ms-3">
+          <input class="form-check-input  border-black" type="checkbox" id="favouriteOnly" />
+          <label class="form-check-label" for="favouriteOnly">Favourites Only</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Company Cards -->
+    <div class="row" id="companyList"></div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal fade" id="companyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="modalTitle">Company Details</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Company Cards -->
-  <div class="row" id="companyList"></div>
-</main>
-
-<!-- Modal -->
-<div class="modal fade" id="companyModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="modalTitle">Company Details</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body" id="modalBody"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Footer -->
-<footer class="bg-dark text-white text-center py-4 mt-5">
-  <div class="container">
-    <p class="mb-1 small">© 2025 Virtual Job Fair. All rights reserved.</p>
-    <p class="mb-0 small">Contact us: info@virtualjobfair.com | +91-12345-67890</p>
+  <!-- Footer -->
+<footer class="text-white text-center py-4 mt-auto" style="background-color: #212529; width: 100%;">
+  <div class="px-3">
+    <p class="mb-1">© 2025 Virtual Job Fair. All rights reserved.</p>
+    <p class="mb-0">
+      <i class="bi bi-envelope-fill me-2"></i>info@virtualjobfair.com |
+      <i class="bi bi-telephone-fill mx-2"></i>+91-12345-67890
+    </p>
   </div>
 </footer>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  const companies = [
-  {
-    name: "Infosys",
-    sector: "IT",
-    location: "Bangalore",
-    type: "Internship",
-    role: "Frontend Developer Intern",
-    description: "Work on ReactJS-based UI development with real-world projects.",
-    requirements: ["Knowledge of HTML, CSS, JavaScript", "Basics of React or Angular", "Good problem-solving skills"],
-    perks: ["Certificate", "Flexible hours", "Pre-placement offer"],
-    tags: ["#HiringNow", "#Remote", "#FreshersWelcome", "#Flexible"],
-    time: "2 days ago"
-  },
-  {
-    name: "TCS",
-    sector: "IT",
-    location: "Delhi",
-    type: "Full-Time",
-    role: "Java Backend Developer",
-    description: "Develop robust backend services using Java, Spring Boot.",
-    requirements: ["2+ years experience in Java", "Spring Boot and REST API knowledge", "Good communication skills"],
-    perks: ["Medical insurance", "Annual bonus"],
-    tags: ["#Onsite", "#ExperiencedOnly", "#ImmediateJoining", "#CoreJava"],
-    time: "1 week ago"
-  },
-  {
-    name: "HDFC Bank",
-    sector: "Finance",
-    location: "Mumbai",
-    type: "Full-Time",
-    role: "Relationship Manager",
-    description: "Manage customer accounts and sell banking products.",
-    requirements: ["Bachelor's degree in Finance", "Good communication & interpersonal skills"],
-    perks: ["Sales incentives", "On-the-job training"],
-    tags: ["#HiringNow", "#SalesRole", "#TargetBased", "#MBAPreferred"],
-    time: "5 days ago"
-  },
-  {
-    name: "Wipro",
-    sector: "IT",
-    location: "Hyderabad",
-    type: "Part-Time",
-    role: "Tech Support Executive",
-    description: "Provide tech support for domestic and international clients.",
-    requirements: ["Basic IT knowledge", "Strong verbal communication", "Willingness to work shifts"],
-    perks: ["Night shift allowance", "Remote options"],
-    tags: ["#Remote", "#NightShift", "#VoiceProcess", "#WalkInDrive"],
-    time: "3 days ago"
-  },
-  {
-    name: "Amazon",
-    sector: "E-Commerce",
-    location: "Bangalore",
-    type: "Full-Time",
-    role: "Data Analyst",
-    description: "Analyze large datasets to identify customer behavior trends.",
-    requirements: ["SQL, Excel, Tableau", "Statistical knowledge", "Strong communication skills"],
-    perks: ["Stock options", "Health insurance"],
-    tags: ["#UrgentHiring", "#WorkFromHome", "#Analytics"],
-    time: "1 day ago"
-  },
-  {
-    name: "BYJU'S",
-    sector: "EdTech",
-    location: "Delhi",
-    type: "Full-Time",
-    role: "Business Development Associate",
-    description: "Drive student enrollment through consultative sales.",
-    requirements: ["Any graduation", "Good persuasion skills"],
-    perks: ["High incentives", "Travel allowances"],
-    tags: ["#TargetBased", "#FreshersWelcome", "#FieldWork"],
-    time: "4 days ago"
-  },
-  {
-    name: "Cognizant",
-    sector: "IT",
-    location: "Chennai",
-    type: "Internship",
-    role: "QA Automation Intern",
-    description: "Assist in automation testing of enterprise web applications.",
-    requirements: ["Basic knowledge of testing tools", "Good understanding of SDLC"],
-    perks: ["Mentorship", "Hands-on experience", "Certificate"],
-    tags: ["#Remote", "#LearningOpportunity"],
-    time: "3 days ago"
-  },
-  {
-    name: "Deloitte",
-    sector: "Consulting",
-    location: "Mumbai",
-    type: "Full-Time",
-    role: "Risk Analyst",
-    description: "Evaluate and mitigate financial & cyber risks for clients.",
-    requirements: ["Excel, Python", "Good analytical reasoning", "Presentation skills"],
-    perks: ["Work-life balance", "Global exposure"],
-    tags: ["#UrgentHiring", "#ClientFacing", "#ExperiencedOnly"],
-    time: "6 days ago"
-  },
-  {
-    name: "Swiggy",
-    sector: "E-Commerce",
-    location: "Hyderabad",
-    type: "Part-Time",
-    role: "Delivery Executive",
-    description: "Deliver food orders safely and on time.",
-    requirements: ["Valid DL & 2-wheeler", "Smartphone"],
-    perks: ["Weekly payouts", "Fuel allowance"],
-    tags: ["#Flexible", "#NoInterview", "#ImmediateJoining"],
-    time: "Today"
-  },
-  {
-    name: "Apollo Hospitals",
-    sector: "Healthcare",
-    location: "Chennai",
-    type: "Full-Time",
-    role: "Medical Data Coordinator",
-    description: "Manage electronic medical records and support research documentation.",
-    requirements: ["B.Sc or equivalent", "Accuracy and ethics in data handling"],
-    perks: ["Free health check-ups", "Hospital discounts"],
-    tags: ["#Healthcare", "#Clerical", "#WomenPreferred"],
-    time: "2 days ago"
-  }
-];
-  function populateFilters(companies) {
-  const sectorSet = new Set();
-  const locationSet = new Set();
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const companies = [
+      {
+        id:1,
+        name: "Infosys",
+        sector: "IT",
+        location: "Bangalore",
+        type: "Internship",
+        role: "Frontend Developer Intern",
+        description: "Work on ReactJS-based UI development with real-world projects.",
+        requirements: ["Knowledge of HTML, CSS, JavaScript", "Basics of React or Angular", "Good problem-solving skills"],
+        perks: ["Certificate", "Flexible hours", "Pre-placement offer"],
+        tags: ["#HiringNow", "#Remote", "#FreshersWelcome", "#Flexible"],
+        time: "2 days ago",
+        favourite: false
+      },
+      {
+        id:2,
+        name: "TCS",
+        sector: "IT",
+        location: "Delhi",
+        type: "Full-Time",
+        role: "Java Backend Developer",
+        description: "Develop robust backend services using Java, Spring Boot.",
+        requirements: ["2+ years experience in Java", "Spring Boot and REST API knowledge", "Good communication skills"],
+        perks: ["Medical insurance", "Annual bonus"],
+        tags: ["#ExperiencedOnly", "#ImmediateJoining", "#CoreJava"],
+        time: "1 week ago",
+        favourite: false
+      },
+      {
+        id:3,
+        name: "HDFC Bank",
+        sector: "Finance",
+        location: "Mumbai",
+        type: "Full-Time",
+        role: "Relationship Manager",
+        description: "Manage customer accounts and sell banking products.",
+        requirements: ["Bachelor's degree in Finance", "Good communication & interpersonal skills"],
+        perks: ["Sales incentives", "On-the-job training"],
+        tags: ["#HiringNow", "#SalesRole", "#TargetBased", "#MBAPreferred"],
+        time: "5 days ago",
+        favourite: false
+      },
+      {
+        id:4,
+        name: "Wipro",
+        sector: "IT",
+        location: "Hyderabad",
+        type: "Part-Time",
+        role: "Tech Support Executive",
+        description: "Provide tech support for domestic and international clients.",
+        requirements: ["Basic IT knowledge", "Strong verbal communication", "Willingness to work shifts"],
+        perks: ["Night shift allowance", "Remote options"],
+        tags: ["#Remote", "#NightShift", "#VoiceProcess", "#WalkInDrive"],
+        time: "3 days ago",
+        favourite: false
+      },
+      {
+        id:5,
+        name: "Amazon",
+        sector: "E-Commerce",
+        location: "Bangalore",
+        type: "Full-Time",
+        role: "Data Analyst",
+        description: "Analyze large datasets to identify customer behavior trends.",
+        requirements: ["SQL, Excel, Tableau", "Statistical knowledge", "Strong communication skills"],
+        perks: ["Stock options", "Health insurance"],
+        tags: ["#UrgentHiring", "#WorkFromHome", "#Analytics"],
+        time: "1 day ago",
+        favourite: false
+      },
+      {
+        id:6,
+        name: "BYJU'S",
+        sector: "EdTech",
+        location: "Delhi",
+        type: "Full-Time",
+        role: "Business Development Associate",
+        description: "Promote BYJU'S courses through direct, consultative sales to students and parents.",
+        requirements: ["Any graduation", "Good persuasion skills"],
+        perks: ["High incentives", "Travel allowances"],
+        tags: ["#TargetBased", "#FreshersWelcome", "#FieldWork"],
+        time: "4 days ago",
+        favourite: false
+      },
+      {
+        id:7,
+        name: "Cognizant",
+        sector: "IT",
+        location: "Chennai",
+        type: "Internship",
+        role: "QA Automation Intern",
+        description: "Assist in automation testing of enterprise web applications.",
+        requirements: ["Basic knowledge of testing tools", "Good understanding of SDLC"],
+        perks: ["Mentorship", "Hands-on experience", "Certificate"],
+        tags: ["#Remote", "#LearningOpportunity"],
+        time: "3 days ago",
+        favourite: false
+      },
+      {
+        id:8,
+        name: "Deloitte",
+        sector: "Consulting",
+        location: "Mumbai",
+        type: "Full-Time",
+        role: "Risk Analyst",
+        description: "Evaluate and mitigate financial & cyber risks for clients.",
+        requirements: ["Excel, Python", "Good analytical reasoning", "Presentation skills"],
+        perks: ["Work-life balance", "Global exposure"],
+        tags: ["#UrgentHiring", "#ClientFacing", "#ExperiencedOnly"],
+        time: "6 days ago",
+        favourite: false
+      },
+      {
+        id:9,
+        name: "Swiggy",
+        sector: "E-Commerce",
+        location: "Hyderabad",
+        type: "Part-Time",
+        role: "Delivery Executive",
+        description: "Deliver food orders quickly, safely, and on time with professionalism and care.",
+        requirements: ["Valid DL & 2-wheeler", "Smartphone"],
+        perks: ["Weekly payouts", "Fuel allowance"],
+        tags: ["#Flexible", "#NoInterview", "#ImmediateJoining"],
+        time: "Today",
+        favourite: false
+      },
+      {
+        id:10,
+        name: "Apollo Hospitals",
+        sector: "Healthcare",
+        location: "Chennai",
+        type: "Full-Time",
+        role: "Medical Data Coordinator",
+        description: "Manage electronic medical records and support research documentation.",
+        requirements: ["B.Sc or equivalent", "Accuracy and ethics in data handling"],
+        perks: ["Free health check-ups", "Hospital discounts"],
+        tags: ["#Healthcare", "#Clerical", "#WomenPreferred"],
+        time: "2 days ago",
+        favourite: false
+      }
+    ];
+    function populateFilters(companies) {
+      const sectorSet = new Set();
+      const locationSet = new Set();
 
-  companies.forEach(company => {
-    sectorSet.add(company.sector);
-    locationSet.add(company.location);
-  });
+      companies.forEach(company => {
+        sectorSet.add(company.sector);
+        locationSet.add(company.location);
+      });
 
-  const sectorFilter = document.getElementById("sectorFilter");
-  const locationFilter = document.getElementById("locationFilter");
+      const sectorFilter = document.getElementById("sectorFilter");
+      const locationFilter = document.getElementById("locationFilter");
 
-  // Helper to add options
-  function addOptions(selectEl, itemsSet) {
-    // Clear old dynamic options
-    selectEl.querySelectorAll("option:not(:first-child)").forEach(opt => opt.remove());
-    [...itemsSet].sort().forEach(item => {
-      const opt = document.createElement("option");
-      opt.value = item;
-      opt.textContent = item;
-      selectEl.appendChild(opt);
-    });
-  }
+      // Helper to add options
+      function addOptions(selectEl, itemsSet) {
+        // Clear old dynamic options
+        selectEl.querySelectorAll("option:not(:first-child)").forEach(opt => opt.remove());
+        [...itemsSet].sort().forEach(item => {
+          const opt = document.createElement("option");
+          opt.value = item;
+          opt.textContent = item;
+          selectEl.appendChild(opt);
+        });
+      }
 
-  addOptions(sectorFilter, sectorSet);
-  addOptions(locationFilter, locationSet);
-}
-populateFilters(companies);
+      addOptions(sectorFilter, sectorSet);
+      addOptions(locationFilter, locationSet);
+    }
+    populateFilters(companies);
 
-  function renderCards() {
-    const list = document.getElementById("companyList");
-    list.innerHTML = "";
-    const search = document.getElementById("searchInput").value.toLowerCase();
-    const sector = document.getElementById("sectorFilter").value;
-    const location = document.getElementById("locationFilter").value;
-    const typeCheckboxes = document.querySelectorAll("input[name='typeFilter']:checked");
-    const types = Array.from(typeCheckboxes).map(cb => cb.value);
+    function renderCards() {
+      const list = document.getElementById("companyList");
+      list.innerHTML = "";
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const sector = document.getElementById("sectorFilter").value;
+      const location = document.getElementById("locationFilter").value;
+      const typeCheckboxes = document.querySelectorAll("input[name='typeFilter']:checked");
+      const types = Array.from(typeCheckboxes).map(cb => cb.value);
+      const favOnly = document.getElementById("favouriteOnly").checked;
 
-const filtered = companies.filter(c => {
-  return (!search || c.name.toLowerCase().includes(search)) &&
-         (!sector || c.sector === sector) &&
-         (!location || c.location === location) &&
-         (types.length === 0 || types.includes(c.type));
-});
 
-if (filtered.length === 0) {
-  list.innerHTML = `
+      const filtered = companies.filter(c => {
+        return (!search || c.name.toLowerCase().includes(search)) &&
+          (!sector || c.sector === sector) &&
+          (!location || c.location === location) &&
+          (types.length === 0 || types.includes(c.type)) &&
+          (!favOnly || c.favourite === true);
+      });
+
+      if (filtered.length === 0) {
+        list.innerHTML = `
     <div class="col-12 text-center py-5">
       <h5 class="text-muted"> No companies match your search/filter criteria.</h5>
       <p class="text-secondary">Try adjusting your filters or search terms.</p>
     </div>
   `;
-  return;
-}
+        return;
+      }
 
 filtered.forEach((c, index) => {
   const card = document.createElement("div");
   card.className = "col-md-4 mb-4";
+
+  // Add onclick directly to the card container div
   card.innerHTML = `
-    <div class="card h-100">
-      <div class="card-body">
-        <h5 class="card-title fw-bold">${c.name}</h5>
-        <p class="card-text mb-1">Sector: ${c.sector}</p>
-        <p class="card-text mb-1">Location: ${c.location}</p>
-        <p class="card-text mb-1">Hiring Type: ${c.type}</p>
+    <div class="card h-100 shadow-sm rounded border-0 custom-card"   onclick="showDetails(${index})" role="button">
+      <div class="card-body position-relative">
+        <i class="bi ${c.favourite ? 'bi-star-fill text-primary' : 'bi-star text-secondary'} 
+           position-absolute top-0 end-0 m-2 me-3 mt-2 fs-5 favourite-toggle" 
+           role="button" onclick="event.stopPropagation();  toggleFavourite(${c.id})"></i>
+
+        <h5 class="card-title text-prim fw-bold">${c.name}</h5>
+        <p class="card-text mb-1"><strong>Sector:</strong> ${c.sector}</p>
+        <p class="card-text mb-1"><strong>Location:</strong> ${c.location}</p>
+        <p class="card-text mb-1"><strong>Hiring Type:</strong> ${c.type}</p>
         <p class="card-text mb-1"><strong>Role:</strong> ${c.role}</p>
         <p class="card-text">${c.description}</p>
-        ${c.tags.map(tag => `<span class="badge bg-secondary me-1 small">${tag}</span>`).join("")}
-        <br>
-        <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#companyModal" onclick='showDetails(${index})'>View Details</button>
+        ${c.tags.map(tag => `<span class="badge bg-primary me-1 small">${tag}</span>`).join("")}
       </div>
-      <div class="card-footer text-muted text-end small">${c.time}</div>
+      <div class="card-footer bg-white text-primary text-end small"> 
+        <i class="bi bi-clock me-1"></i>${c.time}
+      </div>
     </div>
   `;
-  list.appendChild(card);
-});
 
-  }
+        list.appendChild(card);
+      });
 
-  function showDetails(index) {
-    const c = companies[index];
-    document.getElementById("modalTitle").innerHTML = `
+    }
+    
+
+    function showDetails(index) {
+      const modalEl = document.getElementById('companyModal');
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+      const c = companies[index];
+      document.getElementById("modalTitle").innerHTML = `
       <span class="text-primary text-white">${c.name}</span> - <small>${c.role}</small>
-    `;
+      `;
 
-    document.getElementById("modalBody").innerHTML = `
+      document.getElementById("modalBody").innerHTML = `
       <div class="row mb-3">
         <div class="col-md-6">
           <p><strong>Sector:</strong> ${c.sector}</p>
@@ -352,17 +491,76 @@ filtered.forEach((c, index) => {
         </div>
       </div>
     `;
+    }
+
+    document.getElementById("searchInput").addEventListener("input", renderCards);
+    document.getElementById("sectorFilter").addEventListener("change", renderCards);
+    document.getElementById("locationFilter").addEventListener("change", renderCards);
+    document.querySelectorAll("input[name='typeFilter']").forEach(cb =>
+      cb.addEventListener("change", renderCards)
+    );
+    document.getElementById("favouriteOnly").addEventListener("change", renderCards);
+
+    function toggleFavourite(id) {
+      const company = companies.find(c => c.id === id);
+  if (company) {
+    company.favourite = !company.favourite;
+    showToast(company.favourite ? "Added to favourites!" : "Removed from favourites.");
+    renderCards();
+  } else {
+    console.error(`Company with id ${id} not found.`);
   }
+    }
+    function showToast(message) {
+      const toastEl = document.getElementById("favouriteToast");
+      toastEl.querySelector(".toast-body").textContent = message;
+      const toast = new bootstrap.Toast(toastEl);
+      toast.show();
+    }
+    window.onload = renderCards;
 
-  document.getElementById("searchInput").addEventListener("input", renderCards);
-  document.getElementById("sectorFilter").addEventListener("change", renderCards);
-  document.getElementById("locationFilter").addEventListener("change", renderCards);
-  document.querySelectorAll("input[name='typeFilter']").forEach(cb =>
-    cb.addEventListener("change", renderCards)
-  );
 
-  window.onload = renderCards;
-</script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const name = localStorage.getItem("loggedInUser");
+      const role = localStorage.getItem("userRole");
+      const email = localStorage.getItem("userEmail");
+      const user = users.find(u => u.name === name);
+      const dashboardLink = document.getElementById("dashboardLink");
+      // const dashboardLink = document.getElementById("dashboardLink");
+      // if (role === "admin" ) {
+      //   dashboardLink.href = "Admindashboard.html";
+      // }
+      // else{
+      //   dashboardLink.href = "userdashboard.html";
+      // }
+     if (dashboardLink) {
+      if (role === "Admin") {
+        dashboardLink.setAttribute("href", "admindashboard.html");
+      } else {
+        dashboardLink.setAttribute("href", "userdashboard.html");
+      }
+    }
+          document.getElementById("navUserName").textContent = name;
+          document.getElementById("navUserEmail").textContent = email;
+        });
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      localStorage.removeItem("userRole");
+      window.location.href = "logout.html";
+    }
+  </script>
+  <div class="position-fixed top-0 end-0 p-2 p-md-3 mt-3 mt-md-5" style="z-index: 1100; max-width: 90vw; min-width: 250px;">
+  <div id="favouriteToast" class="toast align-items-center text-bg-primary border-0" role="alert"
+    aria-live="assertive">
+    <div class="d-flex">
+      <div class="toast-body text-white">Added to favourites!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
 
 </body>
+
 </html>
