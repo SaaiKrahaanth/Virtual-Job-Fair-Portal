@@ -1,9 +1,12 @@
 # 🎯 Virtual Job Fair Portal 2025
+📄 **Documentation:** [Sprint 1 Deliverables (PDF)](./Documentation/Sprint_1_Deliverable_Summary.pdf)
+
 ---
 ## 🌐 [Live Demo – Virtual Job Fair Portal](virtual-job-fair-portal-sprint1.netlify.app)
 
----
 
+
+---
 
 ## 📁 Project Structure
 
