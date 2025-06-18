@@ -1,0 +1,60 @@
+
+  <div class="container my-5">
+    <h2 class="mb-4 text-center">Add New Job Listing</h2>
+
+    <form id="jobForm">
+      <div class="mb-3">
+        <label for="companyName" class="form-label">Company Name</label>
+        <input type="text" class="form-control" id="companyName" placeholder="Enter the company name" required>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label for="sector" class="form-label">Sector</label>
+          <input type="text" class="form-control" id="sector" placeholder="Enter sector" required>
+        </div>
+
+        <div class="mb-3 col-md-4">
+          <label for="location" class="form-label">Location</label>
+          <input type="text" class="form-control" id="location" placeholder="Enter location" required>
+        </div>
+
+        <div class="mb-3 col-md-4">
+          <label for="jobType" class="form-label">Job Type</label>
+          <select class="form-select" id="jobType" required>
+            <option value="">Select Type</option>
+            <option>Full-Time</option>
+            <option>Part-Time</option>
+            <option>Internship</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="role" class="form-label">Role</label>
+        <input type="text" class="form-control" id="role" placeholder="Enter job role" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Job Description</label>
+        <textarea class="form-control" id="description" rows="3" required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="requirements" class="form-label">Requirements <small>(comma separated)</small></label>
+        <input type="text" class="form-control" id="requirements" placeholder="Enter the requirements " required>
+      </div>
+
+      <div class="mb-3">
+        <label for="perks" class="form-label">Perks <small>(comma separated)</small></label>
+        <input type="text" class="form-control" id="perks" placeholder="Enter the perks">
+      </div>
+
+      <div class="mb-3">
+        <label for="tags" class="form-label">Tags <small>(comma separated with #)</small></label>
+        <input type="text" class="form-control" id="tags" placeholder="Add tags ">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Add Job</button>
+    </form>
+  </div>

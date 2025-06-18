@@ -1,0 +1,87 @@
+
+  <!-- Main Content -->
+  <section class="container py-5 flex-grow-1" >
+
+    <!-- Filters Section -->
+    <div class="mb-4">
+      <div class="d-flex flex-wrap gap-3 align-items-end">
+
+        <!-- Search -->
+        <div class="flex-grow-1 min-w-200">
+          <input type="text" id="searchInput" class="form-control border-black" placeholder="&#128269; Search company name..." />
+        </div>
+
+        <!-- Sector Filter -->
+        <div class="row g-2">
+          <div class="col-6">
+            <select id="sectorFilter" class="form-select  border-black">
+              <option value="">All Sectors</option>
+
+            </select>
+          </div>
+          <div class="col-6">
+            <select id="locationFilter"  class="form-select border-black">
+              <option value="">All Locations</option>
+
+            </select>
+          </div>
+        </div>
+
+
+
+        <!-- Type Filter -->
+        <div style="min-width: 240px;">
+          <div class="d-flex flex-wrap gap-2">
+            <div class="form-check">
+              <input class="form-check-input  border-black" type="checkbox" name="typeFilter" value="Internship" id="typeIntern" />
+              <label class="form-check-label" for="typeIntern">Intern</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input border-black" type="checkbox" name="typeFilter" value="Full-Time" id="typeFull" />
+              <label class="form-check-label" for="typeFull">Full-Time</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input border-black" type="checkbox" name="typeFilter" value="Part-Time" id="typePart" />
+              <label class="form-check-label" for="typePart">Part-Time</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-check form-switch  ms-3">
+          <input class="form-check-input  border-black" type="checkbox" id="favouriteOnly" />
+          <label class="form-check-label" for="favouriteOnly">Favourites Only</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Company Cards -->
+    <div class="row" id="companyList"></div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal fade" id="companyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="modalTitle">Company Details</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <div class="position-fixed top-0 end-0 p-2 p-md-3 mt-3 mt-md-5" style="z-index: 1100; max-width: 90vw; min-width: 250px;">
+  <div id="favouriteToast" class="toast align-items-center text-bg-primary border-0" role="alert"
+    aria-live="assertive">
+    <div class="d-flex">
+      <div class="toast-body text-white">Added to favourites!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>

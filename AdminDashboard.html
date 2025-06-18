@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Virtual Job Fair</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .navbar {
+      background-color: #000000;
+    }
+
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+      color: #ffffff !important;
+    }
+
+    .navbar .nav-link.active {
+      font-weight: bold;
+      color: #ffca28 !important;
+    }
+
+    .card img {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 0.5rem;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    footer {
+      background-color: #212529;
+      color: #ffffff;
+    }
+
+    .dropdown-item.logout-item {
+      color: #dc3545;
+    }
+
+    .dropdown-item.logout-item:hover {
+      background-color: #f8d7da;
+      color: #b02a37;
+    }
+
+    .dropdown-item.logout-item:active {
+      background-color: transparent !important;
+      color: #b02a37 !important;
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">JobFair 2025 - Admin</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="adminNav">
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" href="#dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#addJobs">Add Jobs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#companies">Companies</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle me-1"></i><span id="navUserName">Admin</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><h6 class="dropdown-header" id="navUserEmail">admin@example.com</h6></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item logout-item" href="#" onclick="logout()">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main id="app"></main>
+
+<!-- Footer -->
+<footer class="text-white text-center py-4 mt-auto">
+  <div class="container">
+    <p class="mb-1">© 2025 Virtual Job Fair. All rights reserved.</p>
+    <p class="mb-0">
+      <i class="bi bi-envelope-fill me-2"></i>info@virtualjobfair.com |
+      <i class="bi bi-telephone-fill mx-2"></i>+91-12345-67890
+    </p>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const name = localStorage.getItem("loggedInUser");
+    const role = localStorage.getItem("userRole");
+    const email = localStorage.getItem("userEmail");
+    const user = users.find(u => u.name === name);
+
+    if (!user || role !== "Admin") {
+      window.location.href = "Login.html";
+    } else {
+      document.getElementById("navUserName").textContent = user.name;
+      document.getElementById("navUserEmail").textContent = email;
+    }
+  });
+
+  function logout() {
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("userRole");
+    window.location.href = "logout.html";
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="adminrouter.js"></script>
+</body>
+</html>
