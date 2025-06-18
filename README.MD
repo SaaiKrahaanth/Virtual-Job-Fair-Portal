@@ -79,13 +79,10 @@
 
 ---
 
-## 👨‍💻 Authors & Collaborators
+
+## 👨‍💻 Collaborators & Responsibilities
 Here is the **combined collaborator task list** for the **Virtual Job Fair Portal**, with **GitHub profile links**, **roles**, and **assigned tasks**:
-Here's the updated collaborator list with the **👤 emoji for all**, arranged with tasks:
 
----
-
-### 👤 Collaborators & Responsibilities
 
 1. 👤 [**SaaiKrahaanth**](https://github.com/SaaiKrahaanth)
    🔹 *Set up GitHub repository, define branching strategy, and invite all members.*
@@ -109,11 +106,6 @@ Here's the updated collaborator list with the **👤 emoji for all**, arranged w
    🔹 *Assist with testing, debugging, and backup support across modules.*
 
 
----
-
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
 
 ---
 
@@ -131,7 +123,3 @@ To contribute:
 
 > ⭐ Star this project if you found it helpful!
 
-```
-
-Let me know if you'd like a downloadable `.md` file or to directly push this to GitHub.
-```
