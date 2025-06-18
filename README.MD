@@ -1,6 +1,6 @@
 # 🎯 Virtual Job Fair Portal 2025
 ---
-## 🌐 [Live Demo – Virtual Job Fair Portal](https://virtual-job-fair-portal.netlify.app)
+## 🌐 [Live Demo – Virtual Job Fair Portal](virtual-job-fair-portal-sprint1.netlify.app)
 
 ---
 
@@ -124,6 +124,6 @@ To contribute:
 
 > ⭐ Star this project if you found it helpful!
 
-[🔗 Live Demo – Virtual Job Fair Portal](https://virtual-job-fair-portal.netlify.app) 📋
+[🔗 Live Demo – Virtual Job Fair Portal](virtual-job-fair-portal-sprint1.netlify.app) 📋
 
 
