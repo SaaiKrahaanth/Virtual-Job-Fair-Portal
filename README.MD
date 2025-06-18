@@ -1,8 +1,9 @@
 # 🎯 Virtual Job Fair Portal 2025
-
-🌐 A fully responsive and interactive virtual job fair platform built using HTML, CSS (Bootstrap), and JavaScript.
+---
+## 🌐 [Live Demo – Virtual Job Fair Portal](https://virtual-job-fair-portal.netlify.app)
 
 ---
+
 
 ## 📁 Project Structure
 
@@ -122,4 +123,7 @@ To contribute:
 ---
 
 > ⭐ Star this project if you found it helpful!
+
+[🔗 Live Demo – Virtual Job Fair Portal](https://virtual-job-fair-portal.netlify.app) 📋
+
 
