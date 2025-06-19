@@ -1,0 +1,28 @@
+{
+  "name": "virtual-job-fair-portal",
+  "version": "1.0.0",
+  "description": "A portal for virtual job fairs.",
+  "main": "src/main.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "dev": "ts-node src/main.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/virtual-job-fair-portal.git"
+  },
+  "keywords": [
+    "job",
+    "fair",
+    "portal",
+    "virtual"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.5.4",
+    "ts-node": "^10.4.0"
+  },
+  "dependencies": {}
+}
