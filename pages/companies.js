@@ -1,145 +1,28 @@
-export const companies = [
-      {
-        id:1,
-        name: "Infosys",
-        sector: "IT",
-        location: "Bangalore",
-        type: "Internship",
-        role: "Frontend Developer Intern",
-        description: "Work on ReactJS-based UI development with real-world projects.",
-        requirements: ["Knowledge of HTML, CSS, JavaScript", "Basics of React or Angular", "Good problem-solving skills"],
-        perks: ["Certificate", "Flexible hours", "Pre-placement offer"],
-        tags: ["#HiringNow", "#Remote", "#FreshersWelcome", "#Flexible"],
-        time: "2 days ago",
-        favourite: false
-      },
-      {
-        id:2,
-        name: "TCS",
-        sector: "IT",
-        location: "Delhi",
-        type: "Full-Time",
-        role: "Java Backend Developer",
-        description: "Develop robust backend services using Java, Spring Boot.",
-        requirements: ["2+ years experience in Java", "Spring Boot and REST API knowledge", "Good communication skills"],
-        perks: ["Medical insurance", "Annual bonus"],
-        tags: ["#ExperiencedOnly", "#ImmediateJoining", "#CoreJava"],
-        time: "1 week ago",
-        favourite: false
-      },
-      {
-        id:3,
-        name: "HDFC Bank",
-        sector: "Finance",
-        location: "Mumbai",
-        type: "Full-Time",
-        role: "Relationship Manager",
-        description: "Manage customer accounts and sell banking products.",
-        requirements: ["Bachelor's degree in Finance", "Good communication & interpersonal skills"],
-        perks: ["Sales incentives", "On-the-job training"],
-        tags: ["#HiringNow", "#SalesRole", "#TargetBased", "#MBAPreferred"],
-        time: "5 days ago",
-        favourite: false
-      },
-      {
-        id:4,
-        name: "Wipro",
-        sector: "IT",
-        location: "Hyderabad",
-        type: "Part-Time",
-        role: "Tech Support Executive",
-        description: "Provide tech support for domestic and international clients.",
-        requirements: ["Basic IT knowledge", "Strong verbal communication", "Willingness to work shifts"],
-        perks: ["Night shift allowance", "Remote options"],
-        tags: ["#Remote", "#NightShift", "#VoiceProcess", "#WalkInDrive"],
-        time: "3 days ago",
-        favourite: false
-      },
-      {
-        id:5,
-        name: "Amazon",
-        sector: "E-Commerce",
-        location: "Bangalore",
-        type: "Full-Time",
-        role: "Data Analyst",
-        description: "Analyze large datasets to identify customer behavior trends.",
-        requirements: ["SQL, Excel, Tableau", "Statistical knowledge", "Strong communication skills"],
-        perks: ["Stock options", "Health insurance"],
-        tags: ["#UrgentHiring", "#WorkFromHome", "#Analytics"],
-        time: "1 day ago",
-        favourite: false
-      },
-      {
-        id:6,
-        name: "BYJU'S",
-        sector: "EdTech",
-        location: "Delhi",
-        type: "Full-Time",
-        role: "Business Development Associate",
-        description: "Promote BYJU'S courses through direct, consultative sales to students and parents.",
-        requirements: ["Any graduation", "Good persuasion skills"],
-        perks: ["High incentives", "Travel allowances"],
-        tags: ["#TargetBased", "#FreshersWelcome", "#FieldWork"],
-        time: "4 days ago",
-        favourite: false
-      },
-      {
-        id:7,
-        name: "Cognizant",
-        sector: "IT",
-        location: "Chennai",
-        type: "Internship",
-        role: "QA Automation Intern",
-        description: "Assist in automation testing of enterprise web applications.",
-        requirements: ["Basic knowledge of testing tools", "Good understanding of SDLC"],
-        perks: ["Mentorship", "Hands-on experience", "Certificate"],
-        tags: ["#Remote", "#LearningOpportunity"],
-        time: "3 days ago",
-        favourite: false
-      },
-      {
-        id:8,
-        name: "Deloitte",
-        sector: "Consulting",
-        location: "Mumbai",
-        type: "Full-Time",
-        role: "Risk Analyst",
-        description: "Evaluate and mitigate financial & cyber risks for clients.",
-        requirements: ["Excel, Python", "Good analytical reasoning", "Presentation skills"],
-        perks: ["Work-life balance", "Global exposure"],
-        tags: ["#UrgentHiring", "#ClientFacing", "#ExperiencedOnly"],
-        time: "6 days ago",
-        favourite: false
-      },
-      {
-        id:9,
-        name: "Swiggy",
-        sector: "E-Commerce",
-        location: "Hyderabad",
-        type: "Part-Time",
-        role: "Delivery Executive",
-        description: "Deliver food orders quickly, safely, and on time with professionalism and care.",
-        requirements: ["Valid DL & 2-wheeler", "Smartphone"],
-        perks: ["Weekly payouts", "Fuel allowance"],
-        tags: ["#Flexible", "#NoInterview", "#ImmediateJoining"],
-        time: "Today",
-        favourite: false
-      },
-      {
-        id:10,
-        name: "Apollo Hospitals",
-        sector: "Healthcare",
-        location: "Chennai",
-        type: "Full-Time",
-        role: "Medical Data Coordinator",
-        description: "Manage electronic medical records and support research documentation.",
-        requirements: ["B.Sc or equivalent", "Accuracy and ethics in data handling"],
-        perks: ["Free health check-ups", "Hospital discounts"],
-        tags: ["#Healthcare", "#Clerical", "#WomenPreferred"],
-        time: "2 days ago",
-        favourite: false
-      }
-    ];
+export let companies = [];
+
+
+export async function loadCompanies() {
+  try {
+    const res = await fetch("http://localhost:3000/companies");
+    companies = await res.json();
+
+    // Load favourites from localStorage
+    const savedFavs = JSON.parse(localStorage.getItem("favourites")) || [];
+    companies.forEach(c => {
+      c.favourite = savedFavs.includes(c.id);
+    });
+
+
+  } catch (err) {
+    console.error("Error loading company data:", err);
+  }
+}
+
+function updateLocalStorageFavourites() {
+  const favIds = companies.filter(c => c.favourite).map(c => c.id);
+  localStorage.setItem("favourites", JSON.stringify(favIds));
+}
+
 
 export function populateFilters(companies) {
       const sectorSet = new Set();
@@ -279,16 +162,18 @@ filtered.forEach((c, index) => {
 
    
 
-    export function toggleFavourite(id) {
-      const company = companies.find(c => c.id === id);
+export function toggleFavourite(id) {
+  const company = companies.find(c => c.id === id);
   if (company) {
     company.favourite = !company.favourite;
+    updateLocalStorageFavourites(); // Update localStorage here
     showToast(company.favourite ? "Added to favourites!" : "Removed from favourites.");
     renderCards();
   } else {
     console.error(`Company with id ${id} not found.`);
   }
-    }
+}
+
     export function showToast(message) {
       const toastEl = document.getElementById("favouriteToast");
       toastEl.querySelector(".toast-body").textContent = message;
@@ -296,34 +181,8 @@ filtered.forEach((c, index) => {
       toast.show();
     }
 
-    
-    // document.addEventListener("DOMContentLoaded", () => {
-    //   const users = JSON.parse(localStorage.getItem("users")) || [];
-    //   const name = localStorage.getItem("loggedInUser");
-    //   const role = localStorage.getItem("userRole");
-    //   const email = localStorage.getItem("userEmail");
-    //   const user = users.find(u => u.name === name);
-    //   const dashboardLink = document.getElementById("dashboardLink");
-    //   // const dashboardLink = document.getElementById("dashboardLink");
-    //   // if (role === "admin" ) {
-    //   //   dashboardLink.href = "Admindashboard.html";
-    //   // }
-    //   // else{
-    //   //   dashboardLink.href = "userdashboard.html";
-    //   // }
-    //  if (dashboardLink) {
-    //   if (role === "Admin") {
-    //     dashboardLink.setAttribute("href", "admindashboard.html");
-    //   } else {
-    //     dashboardLink.setAttribute("href", "userdashboard.html");
-    //   }
-    // }
-    //       document.getElementById("navUserName").textContent = name;
-    //       document.getElementById("navUserEmail").textContent = email;
-    //     });
 
-    // function logout() {
-    //   localStorage.removeItem("loggedInUser");
-    //   localStorage.removeItem("userRole");
-    //   window.location.href = "logout.html";
-    // }
+    
+document.addEventListener('DOMContentLoaded', () => {
+  loadCompanies();
+});

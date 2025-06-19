@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin | Job Listings</title>
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="#">Admin Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container py-4">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body">
+
+        <!-- Header -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
+          <h4 class="text-primary m-0">Job Listings</h4>
+          <a href="add-job.html" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> Add New Job
+          </a>
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+          <table class="table table-hover align-middle text-center">
+            <thead class="table-light">
+              <tr>
+                <th>#</th>
+                <th>Company</th>
+                <th>Sector</th>
+                <th>Location</th>
+                <th>Type</th>
+                <th>Role</th>
+                <th>Posted</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="jobTableBody">
+              <tr>
+                <td colspan="8" class="text-muted py-4">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Job Modal -->
+  <div class="modal fade" id="editJobModal" tabindex="-1" aria-labelledby="editJobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editJobModalLabel">Edit Job Listing</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <!-- Scrollable Content Wrapper -->
+          <div class="modal-body p-0">
+            <div class="container-fluid p-3" style="max-height: 65vh; overflow-y: auto;">
+              <input type="hidden" id="editIndex" />
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Company Name</label>
+                  <input type="text" class="form-control" id="editName" required />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Sector</label>
+                  <input type="text" class="form-control" id="editSector" required />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Location</label>
+                  <input type="text" class="form-control" id="editLocation" required />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Type</label>
+                  <select class="form-select" id="editType" required>
+                    <option value="Full-Time">Full-Time</option>
+                    <option value="Part-Time">Part-Time</option>
+                    <option value="Internship">Internship</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Role</label>
+                  <input type="text" class="form-control" id="editRole" required />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Description</label>
+                  <textarea class="form-control" id="editDescription" rows="2"></textarea>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Requirements <small>(comma separated)</small></label>
+                  <input type="text" class="form-control" id="editRequirements" />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Perks <small>(comma separated)</small></label>
+                  <input type="text" class="form-control" id="editPerks" />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Tags <small>(comma separated with #)</small></label>
+                  <input type="text" class="form-control" id="editTags" />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Posted Time</label>
+                  <input type="text" class="form-control" id="editTime" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-secondary-subtle text-center py-3 mt-5">
+    <small class="text-muted">&copy; 2025 Virtual Job Fair | Admin Panel</small>
+  </footer>
+
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Functional Script -->
+  <script>
+    let companies = [];
+
+    async function loadCompanies() {
+      try {
+        const res = await fetch("http://localhost:3000/companies");
+        companies = await res.json();
+        renderTable();
+      } catch (err) {
+        document.getElementById("jobTableBody").innerHTML = `
+          <tr><td colspan="8" class="text-danger text-center">Error loading data.</td></tr>
+        `;
+        console.error("Error loading company data:", err);
+      }
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("jobTableBody");
+      tbody.innerHTML = "";
+
+      if (companies.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" class="text-center text-muted py-4">
+              No job listings found. Click "Add New Job" to get started.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      companies.forEach((c, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${c.name}</td>
+          <td>${c.sector}</td>
+          <td>${c.location}</td>
+          <td><span class="badge bg-info text-dark">${c.type}</span></td>
+          <td>${c.role}</td>
+          <td>${c.time}</td>
+          <td class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+            <button class="btn btn-outline-primary btn-sm" type="button" onclick="openEditModal(${index})">
+              <i class="bi bi-pencil-square"></i> Edit
+            </button>
+            <button class="btn btn-outline-danger btn-sm" type="button" onclick="deleteCompany(${c.id}); return false;">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function openEditModal(index) {
+      const job = companies[index];
+      document.getElementById("editIndex").value = index;
+      document.getElementById("editName").value = job.name;
+      document.getElementById("editSector").value = job.sector;
+      document.getElementById("editLocation").value = job.location;
+      document.getElementById("editType").value = job.type;
+      document.getElementById("editRole").value = job.role;
+      document.getElementById("editDescription").value = job.description || "";
+      document.getElementById("editRequirements").value = (job.requirements || []).join(", ");
+      document.getElementById("editPerks").value = (job.perks || []).join(", ");
+      document.getElementById("editTags").value = (job.tags || []).join(", ");
+      document.getElementById("editTime").value = job.time;
+
+      const modal = new bootstrap.Modal(document.getElementById("editJobModal"));
+      modal.show();
+    }
+
+    document.getElementById("saveChangesBtn").addEventListener("click", async () => {
+      const index = parseInt(document.getElementById("editIndex").value);
+      const company = companies[index];
+
+      const updatedCompany = {
+        ...company,
+        name: document.getElementById("editName").value,
+        sector: document.getElementById("editSector").value,
+        location: document.getElementById("editLocation").value,
+        type: document.getElementById("editType").value,
+        role: document.getElementById("editRole").value,
+        description: document.getElementById("editDescription").value,
+        requirements: document.getElementById("editRequirements").value.split(",").map(s => s.trim()).filter(Boolean),
+        perks: document.getElementById("editPerks").value.split(",").map(s => s.trim()).filter(Boolean),
+        tags: document.getElementById("editTags").value.split(",").map(s => s.trim()).filter(Boolean),
+        time: document.getElementById("editTime").value,
+      };
+
+      try {
+        const res = await fetch(`http://localhost:3000/companies/${company.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedCompany),
+        });
+
+        if (!res.ok) throw new Error("Failed to update");
+
+        companies[index] = updatedCompany;
+        renderTable();
+        bootstrap.Modal.getInstance(document.getElementById("editJobModal")).hide();
+      } catch (err) {
+        console.error("Error updating company:", err);
+        alert("Could not save changes.");
+      }
+    });
+
+    async function deleteCompany(id) {
+      try {
+        console.log('deleting')
+        const res = await fetch(`http://localhost:3000/companies/${id}`, {
+          method: "DELETE",
+        });
+        console.log('checking')
+        if (!res.ok) throw new Error("Failed to delete");
+        console.log('check 2')
+        companies = companies.filter(c => c.id !== id);
+        console.log('check 3')
+        renderTable();
+        console.log('check 4')
+      } catch (err) {
+        console.error("Delete failed:", err);
+        alert("Failed to delete job listing.");
+      }
+      console.log('check 5')
+      return false;
+    }
+
+    loadCompanies();
+  </script>
+</body>
+</html>

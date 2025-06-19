@@ -2,151 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>User Dashboard | Virtual Job Fair</title>
-
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="assets/css/style.css">
-  <style>
-    .navbar {
-      background-color:#212529;
-    }
-
-    .navbar .nav-link,
-    .navbar .navbar-brand {
-      color: #ffffff !important;
-    }
-
-    .navbar .nav-link.active {
-      font-weight: bold;
-      color: #ffca28 !important;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #00897b, #1976d2);
-      color: #ffffff;
-    }
-
-    .hero .btn {
-      background-color: #ffffff;
-      color: #1976d2;
-      border: none;
-    }
-
-    .hero .btn:hover {
-      background-color: #e3f2fd;
-      color: #1565c0;
-    }
-
-    .event-highlights {
-      background-color: #f3e5f5;
-    }
-
-    .event-highlights .card {
-      background-color: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-radius: 0.5rem;
-      transition: transform 0.2s ease;
-    }
-
-    .event-highlights .card:hover {
-      transform: scale(1.03);
-    }
-
-    footer {
-      color: #f5f5f5;
-    }
-    .dropdown-item.logout-item {
-      color: #dc3545;
-    }
-
-    .dropdown-item.logout-item:hover {
-      background-color: #f8d7da;
-      color: #b02a37;
-    }
-
-    .dropdown-item.logout-item:active {
-      background-color: transparent !important;
-      color: #b02a37 !important;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Companies</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
-  <div class="container">
-    <a class="navbar-brand" href="#">JobFair 2025</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav align-items-center">
-        <li class="nav-item">
-          <a class="nav-link active" href="#dashboard">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#companies">Companies</a>
-        </li>
-        <!-- ---profile--- -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle me-1"></i><span id="navUserName">User</span>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><h6 class="dropdown-header" id="navUserEmail">user@example.com</h6></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item logout-item" href="#" onclick="logout()">Logout</a></li>
-          </ul>
-        </li>
-        <!-- --- -->
-      </ul>
-    </div>
-  </div>
-</nav>
+ 
 
-<!-- Hero Banner -->
-<main id="app"></main>
-
-<!-- Footer -->
-<footer class="bg-dark text-white text-center py-4">
-  <div class="container">
-    <p class="mb-1">© 2025 Virtual Job Fair. All rights reserved.</p>
-    <p class="mb-0">
-      <i class="bi bi-envelope-fill me-2"></i>info@virtualjobfair.com |
-      <i class="bi bi-telephone-fill mx-2"></i>+91-12345-67890
-    </p>
-  </div>
-</footer>
-
-<!-- Scripts -->
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const name = localStorage.getItem("loggedInUser");
-    const role = localStorage.getItem("userRole");
-    const email = localStorage.getItem("userEmail");
-    const user = users.find(u => u.name === name);
-
-    if (!user || role !== "User") {
-      window.location.href = "Login.html";
-    } else {
-      document.getElementById("navUserName").textContent = user.name;
-      document.getElementById("navUserEmail").textContent = email;
-    }
-  });
-
-  function logout() {
-    localStorage.removeItem("loggedInUser");
-    localStorage.removeItem("userRole");
-    window.location.href = "logout.html";
-  }
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="router.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="demo.js" type="module"></script>
 </body>
 </html>
