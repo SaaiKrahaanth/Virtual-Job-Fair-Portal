@@ -29,6 +29,9 @@ function loadContent(url) {
           const welcome = document.getElementById("welcomeMessage");
           if (welcome) welcome.textContent = `Welcome, ${user.name}`;
         }
+         const script = document.createElement('script');
+            script.src = 'user-dashboard.js';
+            document.body.appendChild(script);
       }
 
       // Company list logic

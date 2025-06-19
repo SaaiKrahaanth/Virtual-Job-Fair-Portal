@@ -2,18 +2,25 @@ const CACHE_NAME = 'jobfair-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/styles.css',
-  '/js/countdown.js',
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png'
 ];
 
-// Install and cache static assets
+
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
+      return Promise.all(
+        urlsToCache.map(url => {
+          return fetch(url).then(response => {
+            if (!response.ok) throw new Error(`Request for ${url} failed with status ${response.status}`);
+            return cache.put(url, response.clone());
+          }).catch(err => {
+            console.error(`Failed to cache ${url}:`, err);
+          });
+        })
+      );
     })
   );
 });
